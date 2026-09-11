@@ -73,10 +73,15 @@ public class PlayerMovement : MonoBehaviour
         
         if (castDistance <= 0f) return true;
         
-        bool hasObstacle = Physics.CheckCapsule(
+        // Check for obstacles using sphere cast instead of CheckCapsule
+        // This avoids the QueryTriggerInteraction parameter issue
+        bool hasObstacle = Physics.SphereCast(
             start,
-            start + Vector3.up * castDistance,
             CharacterController.radius,
+            Vector3.up,
+            out RaycastHit hit,
+            castDistance,
+            ~0, // All layers
             QueryTriggerInteraction.Ignore
         );
         

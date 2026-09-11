@@ -1,54 +1,65 @@
 ```
-# Unity-specific ignores
+# Build artifacts
+*.csproj.user
+*.userprefs
+*.unity
+*.meta
+
+# Unity specific
 Library/
 Temp/
 Obj/
 Build/
+Builds/
 Logs/
-*.unityproj
-*.sln
-*.csproj
-*.user
-*.userprefs
-*.pidb
-*.pdb
-*.meta
-*.unitypackage
-[Space]*
-!README.md
+MemoryCaptures/
 
-# Build artifacts
+# Visual Studio / Rider
+.vs/
+*.sln
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Compiled assembly and metadata caches
 *.dll
 *.exe
-*.so
-*.dylib
-*.a
-*.lib
+*.pdb
+*.mdb
+*.exe.meta
+*.dll.meta
 
-# Dependencies
-Packages/
-node_modules/
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# Environment
+# Environment specific
 .env
 .env.local
-.env.*
+*.env.*
 
 # Logs
 *.log
 crashlytics-build.properties
 
-# OS generated files
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
-._*
+# Testing
+coverage/
+htmlcov/
+*.coverage
 
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Packages
+*.7z
+*.zip
+*.gz
+*.tar
+*.bz2
+*.xz
+*.rar
 ```
