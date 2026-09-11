@@ -1,37 +1,47 @@
 namespace Player
 {
+    /// <summary>
+    /// State when player is standing still on the ground.
+    /// Transitions to Walk on movement input, Jump on jump input, Crouch on crouch input.
+    /// </summary>
     public class PlayerIdleState : PlayerInGroundState
     {
-        public PlayerIdleState(PlayerStateMachineInit player, PlayerInputHandler playerInputHandler, PlayerStateMachine playerStateMachine, PlayerMovement playerMovement, PlayerData playerData) : base(player, playerInputHandler, playerStateMachine, playerMovement, playerData)
+        public PlayerIdleState(
+            PlayerStateMachineInit player, 
+            PlayerInputHandler playerInputHandler, 
+            PlayerStateMachine playerStateMachine, 
+            PlayerMovement playerMovement, 
+            PlayerData playerData) 
+            : base(player, playerInputHandler, playerStateMachine, playerMovement, playerData)
         {
         }
-        public override void DoCheck()
-        {
-            base.DoCheck();
-        }
+
         public override void Enter()
         {
             base.Enter();
-            PlayerMovement.CurrentSpeed = 0;
+            PlayerMovement.CurrentSpeed = 0f;
         }
+
         public override void Exit()
         {
-            PlayerMovement.CurrentSpeed = PlayerData.WalkSpeed;//Assigns walk speed to curr speed in order to be able move in fall state and jump state
+            // Set walk speed for smooth transition to air states
+            PlayerMovement.CurrentSpeed = PlayerData.WalkSpeed;
             base.Exit();
         }
+
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+            
+            // Check for state transitions
             CrouchCheck();
             JumpCheck();
-            if (PlayerInputHandler.MoveInput.x != 0f || PlayerInputHandler.MoveInput.y != 0f)
+            
+            // Transition to walk if moving
+            if (PlayerInputHandler.MoveInput.magnitude > 0f)
             {      
                 StateMachine.ChangeState(Player.WalkState);
             }
-        }
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
         }
     }
 }
