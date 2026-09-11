@@ -1,18 +1,31 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+/// <summary>
+/// Handles player input using Unity's New Input System.
+/// Provides clean interface for movement, look, jump, run, and crouch actions.
+/// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
     private InputSystem_Actions _inputActions;
+    
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool JumpPressed { get; private set; }
     public bool RunPressed { get; private set; }
     public bool CrouchPressed { get; private set; }
+    
+    /// <summary> Event fired on jump press (started) </summary>
+    public event System.Action OnJumpStarted;
+    
+    /// <summary> Event fired on crouch toggle </summary>
+    public event System.Action<bool> OnCrouchToggled;
 
     private void Awake()
     {
         _inputActions = new InputSystem_Actions();
     }
+    
     private void OnEnable()
     {
         _inputActions.Player.Enable();
@@ -32,6 +45,7 @@ public class PlayerInputHandler : MonoBehaviour
         _inputActions.Player.Crouch.started += OnCrouch;
         _inputActions.Player.Crouch.canceled += OnCrouch;
     }
+    
     private void OnDisable()
     {
         _inputActions.Player.Disable();
@@ -51,24 +65,35 @@ public class PlayerInputHandler : MonoBehaviour
         _inputActions.Player.Crouch.started -= OnCrouch;
         _inputActions.Player.Crouch.canceled -= OnCrouch;
     }
-    public void OnMove(InputAction.CallbackContext context)
+    
+    private void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
     }
-    public void OnRun(InputAction.CallbackContext context)
+    
+    private void OnRun(InputAction.CallbackContext context)
     {
         RunPressed = context.performed;
     }
+    
     private void OnLook(InputAction.CallbackContext context)
     {
         LookInput = context.ReadValue<Vector2>();
     }
-    public void OnJump(InputAction.CallbackContext context)
+    
+    private void OnJump(InputAction.CallbackContext context)
     {
         JumpPressed = context.ReadValueAsButton();
+        
+        if (context.started)
+        {
+            OnJumpStarted?.Invoke();
+        }
     }
-    public void OnCrouch(InputAction.CallbackContext context)
+    
+    private void OnCrouch(InputAction.CallbackContext context)
     {
-        CrouchPressed = context.ReadValueAsButton(); ;
+        CrouchPressed = context.ReadValueAsButton();
+        OnCrouchToggled?.Invoke(CrouchPressed);
     }
 }
