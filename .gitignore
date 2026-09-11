@@ -1,49 +1,27 @@
 ```
-# Build artifacts
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.lib
-*.pdb
-*.ilk
-
-# Unity specific
+# Unity-specific ignores
 Library/
 Temp/
 Obj/
 Build/
+*.csproj
 *.unityproj
 *.sln
-*.csproj
+*.suo
 *.user
 *.userprefs
 *.pidb
+*.booproj
+*.svd
 *.pdb
 *.meta
 *.cache
-*.manifest
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Dependencies
-Packages/
-node_modules/
-
-# Editors
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS generated files
+*.ilk
+*.bin
+*.hex
+*.rej
+*~
+.#*
 .DS_Store
 Thumbs.db
 ```

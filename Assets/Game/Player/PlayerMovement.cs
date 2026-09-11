@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         OnCrouchChanged?.Invoke(false);
         
         // Сбрасываем вертикальную скорость при вставании, если на земле
-        if (IsGrounded)
+        if (CheckIfGrounded())
         {
             _verticalVelocity = 0f;
         }
@@ -196,6 +196,15 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyGroundGravity(float gravity)
     {
         _verticalVelocity = gravity * Time.deltaTime;
+    }
+    
+    /// <summary>
+    /// Applies the current vertical velocity to the character controller.
+    /// Must be called every frame when in air to ensure falling works even without horizontal input.
+    /// </summary>
+    public void ApplyVerticalVelocity()
+    {
+        CharacterController.Move(new Vector3(0f, _verticalVelocity, 0f) * Time.deltaTime);
     }
     
     /// <summary>

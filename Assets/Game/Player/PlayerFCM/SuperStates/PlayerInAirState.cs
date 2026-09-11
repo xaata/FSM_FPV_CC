@@ -30,9 +30,17 @@ namespace Player
                 return;
             }
             
-            // Apply gravity and move
+            // Apply gravity first (critical for falling when no input)
             ApplyGravity();
-            PlayerMovement.Move(PlayerInputHandler.MoveInput, PlayerMovement.CameraTransform);
+            
+            // Always apply vertical velocity, even without horizontal input
+            PlayerMovement.ApplyVerticalVelocity();
+            
+            // Handle horizontal movement if there's input
+            if (PlayerInputHandler.MoveInput.magnitude > 0f)
+            {
+                PlayerMovement.Move(PlayerInputHandler.MoveInput, PlayerMovement.CameraTransform);
+            }
             
             // Handle camera rotation
             PlayerMovement.HandleCameraRotation(PlayerInputHandler.LookInput, PlayerData);
