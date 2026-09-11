@@ -28,6 +28,14 @@ namespace Player
             CheckIfInAir();         
         }
 
+        public override void PhysicsUpdate()
+        {
+            base.PhysicsUpdate();
+            // Критическая проверка: если земли нет даже при отсутствии ввода - падаем
+            // Это исправляет баг с зависанием на краю обрыва
+            CheckIfInAir();
+        }
+
         /// <summary>
         /// Checks if player should transition to air state
         /// </summary>

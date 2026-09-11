@@ -28,7 +28,7 @@ namespace Player
 
         public override void Exit()
         {
-            PlayerMovement.Uncrouch();
+            PlayerMovement.Uncrouch(PlayerData);
             base.Exit();    
         }
 

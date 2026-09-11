@@ -108,15 +108,33 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// Returns player to standing state
     /// </summary>
-    public void Uncrouch()
+    public void Uncrouch(PlayerData playerData)
     {
         if (!_isCrouching) return;
+        
+        // Проверка, можно ли встать (Raycast вверх)
+        if (!CanStandUp())
+        {
+            // Если встать нельзя, остаемся в приседе
+            return;
+        }
+        
+        // Коррекция позиции: сдвигаем игрока вниз на половину разницы высот,
+        // чтобы низ коллайдера остался на месте и не было скачка
+        float heightDiff = _standingHeight - CharacterController.height;
+        transform.position += Vector3.up * (heightDiff / 2f);
         
         CharacterController.height = _standingHeight;
         CharacterController.center = _standingCenter;
         
         _isCrouching = false;
         OnCrouchChanged?.Invoke(false);
+        
+        // Сбрасываем вертикальную скорость при вставании, если на земле
+        if (IsGrounded)
+        {
+            _verticalVelocity = 0f;
+        }
     }
     
     #endregion
